@@ -1,3 +1,9 @@
+import {
+    CREATE_EVENT,
+    DELETE_ALL_EVENTS,
+    DELETE_EVENT
+} from '../actions'
+
 const events = (state = [], action) => {
   const createEvent = () => {
     const event = { title: action.title, body: action.body }
@@ -11,11 +17,11 @@ const events = (state = [], action) => {
   }
 
   switch (action.type) {
-    case 'CREATE_EVENT':
+    case CREATE_EVENT:
       return createEvent()
-    case 'DELETE_EVENT':
+    case DELETE_EVENT:
       return deleteEvent()
-    case 'DELETE_ALL_EVENTS':
+    case DELETE_ALL_EVENTS:
       return []
     default:
       return state
