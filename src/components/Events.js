@@ -22,7 +22,7 @@ const Events = ({ state, dispatch }) => {
                 `イベントid=${id}を本当に削除しても良いですか？`
               )
 
-              result && dispatch({ type: 'DELETE_EVENT', id })
+              result && dispatch({ type: DELETE_EVENT, id })
             }
             return (
               <tr key={idx}>
