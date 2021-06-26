@@ -15,6 +15,10 @@ const App = () => {
       title,
       body
     })
+    reset()
+  }
+
+  const reset = () => {
     setTitle('')
     setBody('')
   }
@@ -47,6 +51,22 @@ const App = () => {
          </tr>
        </thead>
        <tbody>
+         {
+           state.map((event, idx) => {
+             const id = event.id
+             const handleClickDeleteBtn = () => {
+               dispatch({type: 'DELETE_EVENT', id})
+             }
+             return (
+              <tr key={idx}>
+                <td>{id}</td>
+                <td>{event.title}</td>
+                <td>{event.body}</td>
+                <td><button type="button" className="btn btn-danger" onClick={handleClickDeleteBtn}>削除</button></td>
+              </tr>
+             )
+          })
+        }
        </tbody>
      </table>
     </div>

@@ -8,11 +8,15 @@ const events = (state = [], action) => {
         return [...state, {id, ...event}];
     }
 
+    const deleteEvent = () => {
+        return state.filter(event => event.id !== action.id)
+    }
+
     switch(action.type) {
         case 'CREATE_EVENT':
             return createEvent()
         case 'DELETE_EVENT':
-            return state;
+            return deleteEvent();
         case 'DELETE_ALL_EVENTS':
             return [];
         default:
