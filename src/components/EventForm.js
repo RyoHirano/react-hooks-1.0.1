@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import {
   CREATE_EVENT,
-  DELETE_ALL_EVENTS
+  DELETE_ALL_EVENTS,
+  ADD_OPERATION_LOG,
+  DELETE_ALL_OPERATION_LOGS,
 } from '../actions'
+import AppContext from '../contexts/AppContext'
+import { timeCurIso8601 } from '../utils'
 
-const EventForm = ({ state, dispatch }) => {
+const EventForm = () => {
+  const { state, dispatch } = useContext(AppContext)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
 
@@ -16,6 +21,13 @@ const EventForm = ({ state, dispatch }) => {
       title,
       body,
     })
+
+    dispatch({
+      type: ADD_OPERATION_LOG,
+      description: 'イベントを作成しました。',
+      operatedAt: timeCurIso8601(),
+    })
+
     reset()
   }
 
@@ -29,7 +41,23 @@ const EventForm = ({ state, dispatch }) => {
     const result = window.confirm(
       '全てのイベントを本当に削除しても良いですか？'
     )
-    result && dispatch({ type: DELETE_ALL_EVENTS })
+    if (result) {
+      dispatch({ type: DELETE_ALL_EVENTS })
+
+      dispatch({
+        type: ADD_OPERATION_LOG,
+        description: '全てのイベントを削除しました。',
+        operatedAt: timeCurIso8601(),
+      })
+    }
+  }
+
+  const deleteAllOperationLogs = (e) => {
+    e.preventDefault()
+    const result = window.confirm(
+      '全ての操作ログを本当に削除しても良いですか？'
+    )
+    result && dispatch({ type: DELETE_ALL_OPERATION_LOGS })
   }
 
   const unCreatable = title === '' || body === ''
@@ -67,9 +95,16 @@ const EventForm = ({ state, dispatch }) => {
         <button
           className="btn btn-danger"
           onClick={deleteALlEvents}
-          disabled={!state.length}
+          disabled={!state.events.length}
         >
           全てのイベントを削除する
+        </button>
+        <button
+          className="btn btn-danger"
+          onClick={deleteAllOperationLogs}
+          disabled={!state.operationLogs.length}
+        >
+          全ての操作ログを削除する
         </button>
       </form>
     </>
