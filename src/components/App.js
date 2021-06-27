@@ -12,6 +12,7 @@ const App = () => {
     operationLogs: [],
   }
   const [state, dispatch] = useReducer(reducer, insitalState)
+  console.log(state)
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
