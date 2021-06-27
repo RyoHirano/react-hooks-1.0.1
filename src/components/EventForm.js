@@ -66,7 +66,7 @@ const EventForm = () => {
         <button
           className="btn btn-danger"
           onClick={deleteALlEvents}
-          disabled={!state.length}
+          disabled={!state.evnets.length}
         >
           全てのイベントを削除する
         </button>
